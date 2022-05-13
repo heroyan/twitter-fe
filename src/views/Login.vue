@@ -35,6 +35,7 @@ export default {
           loginUser({user_name: this.form.username, passwd: this.form.passwd}).then((response) => {
               if(response.code == 0) {
                   alert("Login successfully！")
+                  this.$store.dispatch('user/getInfo')
                   return
               }
               alert("Login failed: " + response.msg)

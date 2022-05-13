@@ -43,8 +43,10 @@ const actions = {
   // remove token
   resetToken({ commit }) {
     return new Promise(resolve => {
+      commit('SET_NAME', '')
+      commit('SET_AVATAR', '')
+      commit('SET_USERNAME', '')
       commit('SET_TOKEN', '')
-      commit('SET_ROLES', [])
       resolve()
     })
   }

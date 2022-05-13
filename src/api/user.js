@@ -4,7 +4,7 @@ export function loginUser(data) {
   return request({
     url: '/api/user/login',
     method: 'post',
-    params: data
+    data: data
   })
 }
 
@@ -18,6 +18,14 @@ export function logout() {
 export function getUser(query) {
     return request({
         url: '/api/user/info',
+        method: 'get',
+        params: query
+    })
+}
+
+export function myPost(query) {
+    return request({
+        url: '/api/user/myPost',
         method: 'get',
         params: query
     })

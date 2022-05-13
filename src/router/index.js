@@ -1,15 +1,29 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Home from "@/views/Home.vue"
+import Login from "@/views/Login.vue"
+import Logout from "@/views/Logout.vue"
+import Me from "@/views/Me.vue"
 
 const constantRoutes = [
     {
-        path: '/login',
-        name: 'login',
-        component: () => import('@/views/Login')
-    },
-    {
         path: '/',
         name: 'home',
-        component: () => import('@/views/Home')
+        component: Home
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: Login
+    },
+    {
+        path: '/logout',
+        name: 'logout',
+        component: Logout
+    },
+    {
+        path: '/me',
+        name: 'me',
+        component: Me
     }
 ]
 

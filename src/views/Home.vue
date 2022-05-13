@@ -1,14 +1,29 @@
 <template>
-  <div class="hello">
-    Hello, Twitter!
+  <div class="home">
+     <post-list :postList="postList" />
   </div>
 </template>
 
 <script>
+import { myPost } from '@/api/user'
+import PostList from '@/components/PostList.vue'
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  name: 'HomePage',
+  components: {
+    PostList
+  },
+  data() {
+    return {
+      postList: []
+    }
+  },
+  created() {
+    myPost().then((response) => {
+        this.postList = response.data
+    }).catch(err => {
+        console.log(err)
+    })
   }
 }
 </script>

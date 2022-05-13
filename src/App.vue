@@ -9,7 +9,8 @@
     >
       <el-menu-item index="1">Discovery</el-menu-item>
       <el-menu-item index="2">Me</el-menu-item>
-      <el-menu-item index="3">Login</el-menu-item>
+      <el-menu-item index="3" v-show="showLogin()">Login</el-menu-item>
+      <el-menu-item index="4" v-show="!showLogin()">Logout</el-menu-item>
     </el-menu>
     <!-- 路由匹配到的组件将渲染在这里 -->
     <router-view v-slot="{ Component }">
@@ -25,6 +26,9 @@ export default {
   name: 'App',
   components: {
   },
+  created() {
+    this.$store.dispatch('user/getInfo')
+  },
   data() {
     return {
       activeIndex: "1"
@@ -32,19 +36,24 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(this.$router)
-      console.log(this.$route)
       switch(key) {
-        case 1:
+        case "1":
           this.$router.push({name: 'home'})
           break;
-        case 2:
+        case "2":
+          this.$router.push({name: 'me'})
           break;
-        case 3:
+        case "3":
           this.$router.push({name: 'login'})
+          break;
+        case "4":
+          this.$router.push({name: 'logout'})
           break;
       }
       console.log(keyPath)
+    },
+    showLogin() {
+      return this.$store.state.user.name == ""
     }
   }
 }
