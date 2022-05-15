@@ -9,7 +9,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">Login</el-button>
-                <el-button type>Register</el-button>
+                <router-link to="/register" class="el-button el-button--info" style="text-decoration:none;">Register</router-link>
             </el-form-item>
         </el-form>
     </div>
@@ -34,14 +34,20 @@ export default {
       onSubmit() {
           loginUser({user_name: this.form.username, passwd: this.form.passwd}).then((response) => {
               if(response.code == 0) {
-                  alert("Login successfully！")
                   this.$store.dispatch('user/getInfo')
+                  this.$router.push({name: 'home'})
                   return
               }
               alert("Login failed: " + response.msg)
           }).catch(err => {
             console.log(err)
         })
+      },
+      checkLogin() {
+            console.log(this.$store.state.user)
+            if(this.$store.state.user.token != "") {
+                this.$router.push({name: 'home'})
+            }
       }
   }
 }

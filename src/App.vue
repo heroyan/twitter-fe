@@ -7,10 +7,10 @@
       mode="horizontal"
       @select="handleSelect"
     >
-      <el-menu-item index="1">Discovery</el-menu-item>
-      <el-menu-item index="2">Me</el-menu-item>
-      <el-menu-item index="3" v-show="showLogin()">Login</el-menu-item>
-      <el-menu-item index="4" v-show="!showLogin()">Logout</el-menu-item>
+      <el-menu-item index="discovery">Discovery</el-menu-item>
+      <el-menu-item index="me" v-show="!showLogin()">Me</el-menu-item>
+      <el-menu-item index="login" v-show="showLogin()">Login</el-menu-item>
+      <el-menu-item index="post" v-show="!showLogin()">+</el-menu-item>
     </el-menu>
     <!-- 路由匹配到的组件将渲染在这里 -->
     <router-view v-slot="{ Component }">
@@ -37,17 +37,17 @@ export default {
   methods: {
     handleSelect(key, keyPath) {
       switch(key) {
-        case "1":
+        case "discovery":
           this.$router.push({name: 'home'})
           break;
-        case "2":
+        case "me":
           this.$router.push({name: 'me'})
           break;
-        case "3":
+        case "login":
           this.$router.push({name: 'login'})
           break;
-        case "4":
-          this.$router.push({name: 'logout'})
+        case "post":
+          this.$router.push({name: 'post'})
           break;
       }
       console.log(keyPath)
@@ -60,6 +60,9 @@ export default {
 </script>
 
 <style>
+html {
+  background-color: #f5f5f5;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -68,5 +71,6 @@ export default {
   color: #2c3e50;
   max-width: 1122px;
   margin: auto;
+  
 }
 </style>

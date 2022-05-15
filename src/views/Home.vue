@@ -1,6 +1,13 @@
 <template>
   <div class="home">
-     <post-list :postList="postList" />
+    <el-tabs v-model="myTab" class="demo-tabs" @tab-click="handleClick">
+      <el-tab-pane label="Hot" name="first">
+        <post-list :postList="hotList" />
+      </el-tab-pane>
+      <el-tab-pane label="Following" name="second">
+        <post-list :postList="followingList" />
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
@@ -15,33 +22,30 @@ export default {
   },
   data() {
     return {
-      postList: []
+      myTab: 'first',
+      hotList: [],
+      followingList: []
     }
   },
   created() {
     myPost().then((response) => {
-        this.postList = response.data
+        this.hotList = response.data
     }).catch(err => {
         console.log(err)
     })
+  },
+  methods: {
+    handleClick(tab, event) {
+      console.log(tab)
+      console.log(event)
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.home {
+  padding: 20px;
 }
 </style>

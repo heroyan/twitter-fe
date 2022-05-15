@@ -58,7 +58,7 @@ service.interceptors.response.use(
           })
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.msg || 'Error'))
     } else {
       return res
     }
@@ -66,7 +66,7 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     ElMessage({
-      message: error.message,
+      message: error.msg,
       type: 'error',
       duration: 5 * 1000
     })
