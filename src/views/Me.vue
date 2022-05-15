@@ -5,20 +5,20 @@
         <div class="item"><router-link to="/logout">Logout</router-link></div>
     </el-card>
     <el-tabs v-model="myTab" class="my-tabs" @tab-click="handleClick">
-      <el-tab-pane label="My Post" name="first">
+      <el-tab-pane label="My Post" name="mypost">
         <post-list :postList="myPostList" />
       </el-tab-pane>
-      <el-tab-pane label="My Star" name="second">
+      <el-tab-pane label="My Star" name="mystar">
         <post-list :postList="myStarList" />
       </el-tab-pane>
-      <el-tab-pane label="My Like" name="third">
+      <el-tab-pane label="My Like" name="mylike">
         <post-list :postList="myLikeList" />
       </el-tab-pane>
     </el-tabs>
 </template>
 
 <script>
-import { myPost } from '@/api/user'
+import { myPost, myLike, myStar } from '@/api/user'
 import PostList from '@/components/PostList.vue'
 
 export default {
@@ -28,18 +28,14 @@ export default {
     },
     data() {
         return {
-            myTab: 'first',
+            myTab: 'mypost',
             myPostList: [],
             myStarList: [],
             myLikeList: []
         }
     },
     created() {
-        myPost().then((response) => {
-            this.myPostList = response.data
-        }).catch(err => {
-            console.log(err)
-        })
+        this.myPost()
     },
     computed: {
         userName() {
@@ -50,9 +46,38 @@ export default {
         }
     },
     methods: {
-        handleClick(tab, event) {
-            console.log(tab.name)
-            console.log(event)
+        handleClick() {
+            var that = this
+            this.$nextTick(function () {
+                if(that.myTab == 'mypost') {
+                    that.myPost()
+                } else if(that.myTab == 'mylike') {
+                    that.myLike()
+                } else if(that.myTab == 'mystar') {
+                    that.myStar()
+                }
+            })
+        },
+        myPost() {
+            myPost().then((response) => {
+                this.myPostList = response.data
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+        myLike() {
+            myLike().then((response) => {
+                this.myLikeList = response.data
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+        myStar() {
+            myStar().then((response) => {
+                this.myStarList = response.data
+            }).catch(err => {
+                console.log(err)
+            })
         }
     }
 }

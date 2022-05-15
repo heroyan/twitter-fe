@@ -38,3 +38,35 @@ export function register(data) {
         data: data
     })
 }
+
+export function myLike(query) {
+    return request({
+        url: '/api/user/myLike',
+        method: 'get',
+        params: query
+    })
+}
+
+export function myStar(query) {
+    return request({
+        url: '/api/user/myStar',
+        method: 'get',
+        params: query
+    })
+}
+
+export function myFollow(query) {
+    return request({
+        url: '/api/user/myFollow',
+        method: 'get',
+        params: query
+    })
+}
+
+export function hotPost(query) {
+    return request({
+        url: '/api/user/hotPost',
+        method: 'get',
+        params: query
+    })
+}

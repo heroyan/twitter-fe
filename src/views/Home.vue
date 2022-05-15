@@ -1,10 +1,10 @@
 <template>
   <div class="home">
     <el-tabs v-model="myTab" class="demo-tabs" @tab-click="handleClick">
-      <el-tab-pane label="Hot" name="first">
+      <el-tab-pane label="Hot" name="hot">
         <post-list :postList="hotList" />
       </el-tab-pane>
-      <el-tab-pane label="Following" name="second">
+      <el-tab-pane label="Following" name="following">
         <post-list :postList="followingList" />
       </el-tab-pane>
     </el-tabs>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { myPost } from '@/api/user'
+import { myFollow, hotPost } from '@/api/user'
 import PostList from '@/components/PostList.vue'
 
 export default {
@@ -22,22 +22,38 @@ export default {
   },
   data() {
     return {
-      myTab: 'first',
+      myTab: 'hot',
       hotList: [],
       followingList: []
     }
   },
   created() {
-    myPost().then((response) => {
-        this.hotList = response.data
-    }).catch(err => {
-        console.log(err)
-    })
+    this.hotPost()
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab)
-      console.log(event)
+    handleClick() {
+        var that = this
+        this.$nextTick(function () {
+            if(that.myTab == 'hot') {
+                that.hotPost()
+            } else if(that.myTab == 'following') {
+                that.followingPost()
+            }
+        })
+    },
+    hotPost() {
+      hotPost().then((response) => {
+          this.hotList = response.data
+      }).catch(err => {
+          console.log(err)
+      })
+    },
+    followingPost() {
+      myFollow().then((response) => {
+          this.followingList = response.data
+      }).catch(err => {
+          console.log(err)
+      })
     }
   }
 }
