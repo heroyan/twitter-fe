@@ -70,3 +70,75 @@ export function hotPost(query) {
         params: query
     })
 }
+
+export function addFollow(data) {
+    return request({
+        url: '/api/user/addFollow',
+        method: 'post',
+        data: data
+    })
+}
+
+export function unFollow(data) {
+    return request({
+        url: '/api/user/unFollow',
+        method: 'post',
+        data: data
+    })
+}
+
+export function followerNum(query) {
+    return request({
+        url: '/api/user/followerNum',
+        method: 'get',
+        params: query
+    })
+}
+
+export function followeeNum(query) {
+    return request({
+        url: '/api/user/followeeNum',
+        method: 'get',
+        params: query
+    })
+}
+
+export function isLike(query) {
+    return request({
+        url: '/api/user/isLike',
+        method: 'get',
+        params: query
+    })
+}
+
+export function isStar(query) {
+    return request({
+        url: '/api/user/isStar',
+        method: 'get',
+        params: query
+    })
+}
+
+export function isFollow(query) {
+    return request({
+        url: '/api/user/isFollow',
+        method: 'get',
+        params: query
+    })
+}
+
+export function myFollower(query) {
+    return request({
+        url: '/api/user/myFollower',
+        method: 'get',
+        params: query
+    })
+}
+
+export function myFollowee(query) {
+    return request({
+        url: '/api/user/myFollowee',
+        method: 'get',
+        params: query
+    })
+}

@@ -1,24 +1,41 @@
 <template>
-    <el-card class="box-card">
-        <div class="item">UserName: {{ userName }}</div>
-        <div class="item">Name: {{ name }}</div>
-        <div class="item"><router-link to="/logout">Logout</router-link></div>
-    </el-card>
-    <el-tabs v-model="myTab" class="my-tabs" @tab-click="handleClick">
-      <el-tab-pane label="My Post" name="mypost">
-        <post-list :postList="myPostList" />
-      </el-tab-pane>
-      <el-tab-pane label="My Star" name="mystar">
-        <post-list :postList="myStarList" />
-      </el-tab-pane>
-      <el-tab-pane label="My Like" name="mylike">
-        <post-list :postList="myLikeList" />
-      </el-tab-pane>
-    </el-tabs>
+    <el-row class="user-info">
+        <el-col :span="6">
+            <div class="item">UserId: {{ userId }}</div>
+        </el-col>
+        <el-col :span="6">
+            <div class="item">UserName: {{ userName }}</div>
+        </el-col>
+        <el-col :span="6">
+            <div class="item">Name: {{ name }}</div>
+        </el-col>
+        <el-col :span="6">
+            <div class="item"><router-link to="/logout">Logout</router-link></div>
+        </el-col>
+        <el-col :span="6">
+            <div class="item">FollowerNum: <router-link to="/followers">{{ followerNum }}</router-link></div>
+        </el-col>
+        <el-col :span="6">
+            <div class="item">FolloweeNum: <router-link to="/followees">{{ followeeNum }}</router-link></div>
+        </el-col>
+        <el-col :span="24">
+            <el-tabs v-model="myTab" class="my-tabs" @tab-click="handleClick">
+                <el-tab-pane label="My Post" name="mypost">
+                    <post-list :postList="myPostList" />
+                </el-tab-pane>
+                <el-tab-pane label="My Star" name="mystar">
+                    <post-list :postList="myStarList" />
+                </el-tab-pane>
+                <el-tab-pane label="My Like" name="mylike">
+                    <post-list :postList="myLikeList" />
+                </el-tab-pane>
+            </el-tabs>
+        </el-col>
+    </el-row>
 </template>
 
 <script>
-import { myPost, myLike, myStar } from '@/api/user'
+import { myPost, myLike, myStar, followerNum, followeeNum } from '@/api/user'
 import PostList from '@/components/PostList.vue'
 
 export default {
@@ -31,13 +48,22 @@ export default {
             myTab: 'mypost',
             myPostList: [],
             myStarList: [],
-            myLikeList: []
+            myLikeList: [],
+            followerNum: 0,
+            followeeNum: 0
         }
     },
     created() {
         this.myPost()
+        this.$nextTick(function(){
+            this.getFollowerNum()
+            this.getFolloweeNum()
+        })
     },
     computed: {
+        userId() {
+            return this.$store.state.user.token
+        },
         userName() {
             return this.$store.state.user.username
         },
@@ -78,14 +104,28 @@ export default {
             }).catch(err => {
                 console.log(err)
             })
+        },
+        getFollowerNum() {
+            followerNum({id: this.userId}).then((response) => {
+                this.followerNum = response.data
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+        getFolloweeNum() {
+            followeeNum({id: this.userId}).then((response) => {
+                this.followeeNum = response.data
+            }).catch(err => {
+                console.log(err)
+            })
         }
     }
 }
 </script>
 
 <style scoped>
-.item {
-  padding: 18px 0;
+.user-info {
+  padding: 18px;
   text-align: left;
 }
 </style>

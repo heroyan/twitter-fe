@@ -4,7 +4,7 @@
       <el-tab-pane label="Hot" name="hot">
         <post-list :postList="hotList" />
       </el-tab-pane>
-      <el-tab-pane label="Following" name="following">
+      <el-tab-pane label="Follow" name="following">
         <post-list :postList="followingList" />
       </el-tab-pane>
     </el-tabs>

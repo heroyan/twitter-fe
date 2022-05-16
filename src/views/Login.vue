@@ -16,11 +16,14 @@
 </template>
 
 <script>
-import { loginUser } from '@/api/user'
+import { loginUser, getUser } from '@/api/user'
 
 export default {
   name: 'LoginPage',
-  components: {
+  created() {
+      this.$nextTick(function() {
+          this.checkLogin()
+      })
   },
   data() {
       return {
@@ -44,10 +47,13 @@ export default {
         })
       },
       checkLogin() {
-            console.log(this.$store.state.user)
-            if(this.$store.state.user.token != "") {
-                this.$router.push({name: 'home'})
-            }
+          getUser().then((response) => {
+              if(response.code == 0) {
+                  this.$router.push({name: 'home'})
+              }
+          }).catch(err => {
+              console.log(err)
+          })
       }
   }
 }
