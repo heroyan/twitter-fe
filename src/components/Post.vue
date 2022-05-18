@@ -1,15 +1,18 @@
 <template>
-    <div class="postForm">
+    <el-dialog v-model="show" title="Post something interesting" class="postForm">
         <el-form :model="form" label-width="120px">
             <el-form-item label="Content">
                 <el-input v-model="form.content" rows="5" type="textarea" autocomplete="off" placeholder="Please input content" />
             </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="onSubmit">Post</el-button>
-                <router-link to="/" class="el-button el-button--info" style="text-decoration:none;">Cancel</router-link>
-            </el-form-item>
         </el-form>
-    </div>
+        <template #footer>
+        <span class="dialog-footer">
+            <el-button @click="show = false">Cancel</el-button>
+            <el-button type="primary" @click="onSubmit"
+            >Confirm</el-button>
+        </span>
+        </template>
+    </el-dialog>
 </template>
 
 <script>
@@ -22,10 +25,14 @@ export default {
       return {
           form: {
               content: ''
-          }
+          },
+          show: false
       }
   },
   methods: {
+      showPost() {
+          this.show = true
+      },
       onSubmit() {
           // check content
           if(this.form.content.length < 5) {
@@ -40,7 +47,7 @@ export default {
               content: this.form.content
           }).then((response) =>{
               if(response.code == 0) {
-                  this.$router.push({name: 'me'})
+                  this.show = false
               }
           }).catch(err => {
             console.log(err)

@@ -17,32 +17,42 @@
                     </span>
                 </span>
                 <span>
-                    <span class="number" @click="addLike(item)">
+                    <span class="number" v-bind:class="like(item)" @click="addLike(item)">
                         <el-icon><Apple /></el-icon>
                         {{ item.like_num }}
                     </span>
                 </span>
                 <span>
-                    <span class="number" @click="addStar(item)">
+                    <span class="number" v-bind:class="star(item)" @click="addStar(item)">
                         <el-icon><Star /></el-icon>
                         {{ item.star_num }}
                     </span>
                 </span>
-                <el-row v-show="isComment(item)">
-                    <el-input v-model="comment" autocomplete="off" placeholder="Please comment content" />
-                    <el-button type="warning" @click="addComment(item)">Comment</el-button>
+                <el-row v-show="isComment(item)" :gutter="20">
+                    <el-col :span="12">
+                        <el-input v-model="comment" autocomplete="off" placeholder="Please comment content" />
+                    </el-col>
+                    <el-col :span="12">
+                        <el-button type="warning" @click="addComment(item)">Comment</el-button>
+                    </el-col>
+                    <comment-list :commentList="commentListMap[item.id]" />
                 </el-row>
             </div>
+            <el-divider />
         </div>
     </div>
 </template>
 
 <script>
-import { addLike, addStar, addComment } from '@/api/post'
-import { addFollow, isFollow } from '@/api/user'
+import { addLike, addStar, addComment, getCommentList } from '@/api/post'
+import { addFollow, isFollow, isStar, isLike } from '@/api/user'
+import CommentList from '@/components/CommentList.vue'
 
 export default {
   props: ['postList'],
+  components: {
+      CommentList
+  },
   data() {
       return {
           avatar: require('@/assets/avatar.png'),
@@ -51,7 +61,8 @@ export default {
           commented: {},
           followed: {},
           liked: {},
-          stared: {}
+          stared: {},
+          commentListMap: {}
       }
   },
   watch: {
@@ -62,10 +73,17 @@ export default {
   methods: {
       showComment(item) {
           this.commented[item.id] = !this.commented[item.id]
+          // get comment list
+          getCommentList({id: item.id}).then((response) => {
+               this.commentListMap[item.id] = response.data
+          }).catch(err => {
+               console.log(err)
+          })
       },
       addLike(item) {
           addLike({post_id: item.id}).then(() => {
              item.like_num++
+             this.liked[item.id] = true
           }).catch(err => {
             console.log(err)
           })
@@ -73,6 +91,7 @@ export default {
       addStar(item) {
           addStar({post_id: item.id}).then(() => {
              item.star_num++
+             this.stared[item.id] = true
           }).catch(err => {
             console.log(err)
           })
@@ -107,16 +126,37 @@ export default {
       },
       isFollow() {
           let idList = []
+          let postIdList = []
           for(let idx=this.start; idx < this.postList.length; idx++) {
               let item = this.postList[idx]
               idList.push(item.user_id)
+              postIdList.push(item.id)
           }
           console.log(idList)
+          console.log(postIdList)
           this.start = this.postList.length
           isFollow({idList: idList}).then((response) => {
               if(response.code == 0) {
                   for(let key in response.data) {
                       this.followed[key] = response.data[key]
+                  }
+              }
+          }).catch(err => {
+              console.log(err)
+          })
+          isLike({idList: postIdList}).then((response) => {
+              if(response.code == 0) {
+                  for(let key in response.data) {
+                      this.liked[key] = response.data[key]
+                  }
+              }
+          }).catch(err => {
+              console.log(err)
+          })
+          isStar({idList: postIdList}).then((response) => {
+              if(response.code == 0) {
+                  for(let key in response.data) {
+                      this.stared[key] = response.data[key]
                   }
               }
           }).catch(err => {
@@ -129,6 +169,26 @@ export default {
           }
 
           return false
+      },
+      like(item) {
+          if(this.liked[item.id]) {
+              return {
+                  checked: true
+              }
+          }
+          return {
+            checked: false
+          }
+      },
+      star(item) {
+          if(this.stared[item.id]) {
+              return {
+                  checked: true
+              }
+          }
+          return {
+            checked: false
+          }
       }
   }
 }
@@ -164,7 +224,7 @@ export default {
     display: inline-block;
     width: 33%;
 }
-.feed-footer .number:hover {
+.feed-footer .number:hover, .checked {
     color: rgb(255 190 115);
     cursor: pointer;
 }

@@ -10,7 +10,7 @@
       <el-menu-item index="discovery">Discovery</el-menu-item>
       <el-menu-item index="me" v-show="!showLogin()">Me</el-menu-item>
       <el-menu-item index="login" v-show="showLogin()">Login</el-menu-item>
-      <el-menu-item index="post" v-show="!showLogin()">+</el-menu-item>
+      <el-menu-item index="post" v-show="!showLogin()"><el-icon><Edit /></el-icon>Post</el-menu-item>
     </el-menu>
     <!-- 路由匹配到的组件将渲染在这里 -->
     <router-view v-slot="{ Component }">
@@ -18,13 +18,17 @@
         <component :is="Component" />
       </keep-alive>
     </router-view>
+    <post ref="post" />
   </div>
 </template>
 
 <script>
+import Post from '@/components/Post.vue'
+
 export default {
   name: 'App',
   components: {
+     Post
   },
   created() {
     this.$store.dispatch('user/getInfo')
@@ -47,7 +51,7 @@ export default {
           this.$router.push({name: 'login'})
           break;
         case "post":
-          this.$router.push({name: 'post'})
+          this.$refs.post.showPost()
           break;
       }
       console.log(keyPath)
@@ -63,6 +67,7 @@ export default {
 html {
   background-color: #f5f5f5;
 }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -70,6 +75,7 @@ html {
   text-align: center;
   color: #2c3e50;
   max-width: 1122px;
+  background: white;
   margin: auto;
   
 }

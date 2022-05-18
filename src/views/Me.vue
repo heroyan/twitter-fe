@@ -1,23 +1,78 @@
 <template>
     <el-row class="user-info">
-        <el-col :span="6">
-            <div class="item">UserId: {{ userId }}</div>
-        </el-col>
-        <el-col :span="6">
-            <div class="item">UserName: {{ userName }}</div>
-        </el-col>
-        <el-col :span="6">
-            <div class="item">Name: {{ name }}</div>
-        </el-col>
-        <el-col :span="6">
-            <div class="item"><router-link to="/logout">Logout</router-link></div>
-        </el-col>
-        <el-col :span="6">
-            <div class="item">FollowerNum: <router-link to="/followers">{{ followerNum }}</router-link></div>
-        </el-col>
-        <el-col :span="6">
-            <div class="item">FolloweeNum: <router-link to="/followees">{{ followeeNum }}</router-link></div>
-        </el-col>
+        <el-descriptions
+            class="user-desc"
+            title="User Info"
+            :column="3"
+            border
+        >
+            <el-descriptions-item>
+                <template #label>
+                    <div class="cell-item">
+                    <el-icon class="iconStyle">
+                        <Avatar />
+                    </el-icon>
+                    UserId
+                    </div>
+                </template>
+                 {{ userId }}
+            </el-descriptions-item>
+            <el-descriptions-item>
+                <template #label>
+                    <div class="cell-item">
+                    <el-icon class="iconStyle">
+                        <user />
+                    </el-icon>
+                    UserName
+                    </div>
+                </template>
+                 {{ userName }}
+            </el-descriptions-item>
+            <el-descriptions-item>
+                <template #label>
+                    <div class="cell-item">
+                    <el-icon class="iconStyle">
+                        <user />
+                    </el-icon>
+                    Name
+                    </div>
+                </template>
+                 {{ name }}
+            </el-descriptions-item>
+            <el-descriptions-item>
+                <template #label>
+                    <div class="cell-item">
+                    <el-icon class="iconStyle">
+                        <user />
+                    </el-icon>
+                    FollowerNum
+                    </div>
+                </template>
+                 <router-link to="/followers">{{ followerNum }}</router-link>
+            </el-descriptions-item>
+            <el-descriptions-item>
+                <template #label>
+                    <div class="cell-item">
+                    <el-icon class="iconStyle">
+                        <user />
+                    </el-icon>
+                    FolloweeNum
+                    </div>
+                </template>
+                <router-link to="/followees">{{ followeeNum }}</router-link>
+            </el-descriptions-item>
+            <el-descriptions-item>
+                <template #label>
+                    <div class="cell-item">
+                    <el-icon class="iconStyle">
+                        <user />
+                    </el-icon>
+                    Logout
+                    </div>
+                </template>
+                <router-link to="/logout">Logout</router-link>
+            </el-descriptions-item>
+        </el-descriptions>
         <el-col :span="24">
             <el-tabs v-model="myTab" class="my-tabs" @tab-click="handleClick">
                 <el-tab-pane label="My Post" name="mypost">
@@ -127,5 +182,11 @@ export default {
 .user-info {
   padding: 18px;
   text-align: left;
+}
+.user-desc {
+    width: 100%;
+}
+.iconStyle {
+    margin-right: 6px;
 }
 </style>

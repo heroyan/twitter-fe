@@ -1,23 +1,34 @@
 <template>
-    <el-row style="width: 100%;">
-        <el-col v-for="(item, index) in userList" :key="index" :span="3">
-            <div class="user-info">{{ item.nick }}</div>
+    <el-row v-for="(item, index) in userList" :key="index" class="user-info">
+        <el-col  :span="2">
+            <el-avatar :size="50" :src="avatar"/>
         </el-col>
+        <el-col :span="22">
+            <div class="user-nick">{{ item.nick }}</div>
+        </el-col>
+        <el-divider />
     </el-row>
 </template>
 
 <script>
 export default {
-    props: ['userList']
+    props: ['userList'],
+    data() {
+        return {
+            avatar: require('@/assets/avatar.png')
+        }
+    }
 }
 </script>
 
 <style scoped>
 .user-info {
-    width: 80%;
-    height: 100px;
-    border-radius: 50%;
-    background: gold;
-    line-height: 100px;
+    width: 100%;
+    margin-top: 10px;
+}
+.user-nick {
+    height: 48px;
+    line-height: 48px;
+    text-align: left;
 }
 </style>

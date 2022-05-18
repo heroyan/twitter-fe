@@ -4,7 +4,6 @@ import Login from "@/views/Login.vue"
 import Logout from "@/views/Logout.vue"
 import Me from "@/views/Me.vue"
 import Register from "@/views/Register.vue"
-import Post from "@/views/Post.vue"
 import Followers from "@/views/Followers.vue"
 import Followees from "@/views/Followees.vue"
 
@@ -28,11 +27,6 @@ const constantRoutes = [
         path: '/register',
         name: 'register',
         component: Register
-    },
-    {
-        path: '/post',
-        name: 'post',
-        component: Post
     },
     {
         path: '/followees',

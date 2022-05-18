@@ -11,6 +11,7 @@ specifiers:
   element-plus: ^2.2.0
   eslint: ^7.32.0
   eslint-plugin-vue: ^8.0.3
+  moment: ^2.29.3
   vue: ^3.2.13
   vue-router: '4'
   vuex: ^4.0.2
@@ -19,6 +20,7 @@ dependencies:
   axios: 0.27.2
   core-js: 3.22.4
   element-plus: 2.2.0_vue@3.2.33
+  moment: 2.29.3
   vue: 3.2.33
   vue-router: 4.0.15_vue@3.2.33
   vuex: 4.0.2_vue@3.2.33
@@ -4619,6 +4621,10 @@ packages:
   /module-alias/2.2.2:
     resolution: {integrity: sha1-FRzc7MJOJXOf8KpuUeHFcWl0wOA=}
     dev: true
+
+  /moment/2.29.3:
+    resolution: {integrity: sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==}
+    dev: false
 
   /mrmime/1.0.0:
     resolution: {integrity: sha1-FNOH8FhaUjPSkbq6M5sGN1KiOYs=}

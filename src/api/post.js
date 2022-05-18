@@ -31,3 +31,11 @@ export function addComment(data) {
         data: data
     })
 }
+
+export function getCommentList(query) {
+    return request({
+        url: '/api/post/comment/info',
+        method: 'get',
+        params: query
+    })
+}

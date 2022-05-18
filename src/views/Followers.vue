@@ -1,6 +1,6 @@
 <template>
     <el-row>
-        My Followers
+        <el-page-header content="My Followers" @back="goBack" />
         <user-list :userList="userList" />
     </el-row>
 </template>
@@ -31,6 +31,9 @@ export default {
             }).catch(err => {
                 console.log(err)
             })
+        },
+        goBack() {
+            this.$router.push({name: 'me'})
         }
     }
 }

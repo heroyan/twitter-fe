@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import store from '@/store'
+import router from '@/router'
 
 // create an axios instance
 const service = axios.create({
@@ -42,7 +42,7 @@ service.interceptors.response.use(
         ElMessage({
             message: res.msg || 'Error',
             type: 'error',
-            duration: 5 * 1000
+            duration: 3000
       })
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
@@ -53,9 +53,7 @@ service.interceptors.response.use(
           cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
+            router.push({name: 'login'})
         })
       }
       return Promise.reject(new Error(res.msg || 'Error'))
@@ -66,9 +64,9 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     ElMessage({
-      message: error.msg,
+      message: 'server internal error, please wait for a while',
       type: 'error',
-      duration: 5 * 1000
+      duration: 3000
     })
     return Promise.reject(error)
   }
