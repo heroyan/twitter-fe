@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="show" title="Post something interesting" class="postForm">
+    <el-dialog v-model="show" title="Post something interesting">
         <el-form :model="form" label-width="120px">
             <el-form-item label="Content">
                 <el-input v-model="form.content" rows="5" type="textarea" autocomplete="off" placeholder="Please input content" />
@@ -8,8 +8,7 @@
         <template #footer>
         <span class="dialog-footer">
             <el-button @click="show = false">Cancel</el-button>
-            <el-button type="primary" @click="onSubmit"
-            >Confirm</el-button>
+            <el-button type="primary" @click="onSubmit">Confirm</el-button>
         </span>
         </template>
     </el-dialog>
@@ -57,10 +56,3 @@ export default {
 }
 </script>
 
-<style scoped>
-.postForm {
-    width: 600px;
-    margin: auto;
-    padding: 18px;
-}
-</style>

@@ -1,11 +1,15 @@
 <template>
     <div class="feeds">
         <div v-for="(item, index) in postList" :key="index" class="feed">
-            <div class="feed-header">
-                <img :src="avatar" class="avatar"/>
-                <span class="user-name">{{ item.user_nick}}</span>
-                <span class="follow"><el-button @click="follow(item.user_id)">{{ getFollowText(item.user_id) }}</el-button></span>
-            </div>
+            <el-row class="feed-header">
+                <el-col :span="1">
+                    <img :src="avatar" class="avatar" @click="toUserProfile(item.user_id)"/>
+                </el-col>
+                <el-col :span="23" class="user-name">
+                    <span class="user-nick" @click="toUserProfile(item.user_id)">{{ item.user_nick}}</span>
+                    <span class="follow"><el-button @click="follow(item.user_id)">{{ getFollowText(item.user_id) }}</el-button></span>
+                </el-col>
+            </el-row>
             <div class="feed-content">
                 {{ item.content }}
             </div>
@@ -189,6 +193,9 @@ export default {
           return {
             checked: false
           }
+      },
+      toUserProfile(userId) {
+          this.$router.push({name: 'user', params: {id: userId}})
       }
   }
 }
@@ -209,6 +216,19 @@ export default {
     height: 48px;
     display: inline;
     border-radius: 50%;
+    cursor: pointer;
+}
+.user-name {
+    height: 48px;
+    line-height: 48px;
+    text-align: left;
+}
+.user-nick {
+    margin-left: 10px;
+    cursor: pointer;
+}
+.user-nick:hover {
+    color: #ff8000;
 }
 .follow {
     margin-left: 50px;

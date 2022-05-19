@@ -6,6 +6,7 @@ import Me from "@/views/Me.vue"
 import Register from "@/views/Register.vue"
 import Followers from "@/views/Followers.vue"
 import Followees from "@/views/Followees.vue"
+import UserProfile from "@/views/UserProfile.vue"
 
 const constantRoutes = [
     {
@@ -42,6 +43,11 @@ const constantRoutes = [
         path: '/me',
         name: 'me',
         component: Me
+    },
+    {
+        path: '/user/:id',
+        name: 'user',
+        component: UserProfile
     }
 ]
 
