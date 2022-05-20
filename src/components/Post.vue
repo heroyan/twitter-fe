@@ -46,6 +46,7 @@ export default {
               content: this.form.content
           }).then((response) =>{
               if(response.code == 0) {
+                  this.form.content = ''
                   this.show = false
               }
           }).catch(err => {

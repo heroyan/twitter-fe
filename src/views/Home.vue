@@ -4,7 +4,7 @@
       <el-tab-pane label="Hot" name="hot">
         <post-list :postList="hotList" />
       </el-tab-pane>
-      <el-tab-pane label="Follow" name="following">
+      <el-tab-pane v-if="loggined" label="Follow" name="following">
         <post-list :postList="followingList" />
       </el-tab-pane>
     </el-tabs>
@@ -29,6 +29,11 @@ export default {
   },
   created() {
     this.hotPost()
+  },
+  computed: {
+        loggined() {
+            return this.$store.state.user.token !== ''
+        },
   },
   methods: {
     handleClick() {
