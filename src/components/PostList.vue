@@ -129,6 +129,10 @@ export default {
           }
       },
       isFollow() {
+          // if not logged, then ignore
+          if(this.$store.state.user.token == '') {
+              return
+          }
           let idList = []
           let postIdList = []
           for(let idx=this.start; idx < this.postList.length; idx++) {
@@ -136,8 +140,6 @@ export default {
               idList.push(item.user_id)
               postIdList.push(item.id)
           }
-          console.log(idList)
-          console.log(postIdList)
           this.start = this.postList.length
           isFollow({idList: idList}).then((response) => {
               if(response.code == 0) {

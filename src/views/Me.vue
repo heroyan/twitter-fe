@@ -70,7 +70,7 @@
                     Logout
                     </div>
                 </template>
-                <router-link to="/logout">Logout</router-link>
+                <el-button type="warning" @click="logout" round>Logout</el-button>
             </el-descriptions-item>
         </el-descriptions>
         <el-col :span="24">
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import { myPost, myLike, myStar, followerNum, followeeNum } from '@/api/user'
+import { myPost, myLike, myStar, followerNum, followeeNum, logout } from '@/api/user'
 import PostList from '@/components/PostList.vue'
 
 export default {
@@ -170,6 +170,16 @@ export default {
         getFolloweeNum() {
             followeeNum({id: this.userId}).then((response) => {
                 this.followeeNum = response.data
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+        logout() {
+            logout().then((response) => {
+                if(response.code == 0) {
+                    this.$store.dispatch('user/resetToken')
+                    this.$router.push({name: 'home'})
+                }
             }).catch(err => {
                 console.log(err)
             })

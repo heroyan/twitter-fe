@@ -64,13 +64,8 @@
             <el-descriptions-item>
                 <template #label>
                     <div class="cell-item">
-                    <el-icon class="iconStyle">
-                        <user />
-                    </el-icon>
-                    Logout
                     </div>
                 </template>
-                <router-link to="/logout">Logout</router-link>
             </el-descriptions-item>
         </el-descriptions>
         <el-col :span="24">
@@ -93,14 +88,14 @@ export default {
         PostList
     },
     created() {
+        this.userId = this.$route.params.id
+        this.getUser()
         this.$watch(
             () => this.$route.params,
-            (toParams, previousParams) => {
-                console.log(previousParams)
-                this.userId = toParams.id
-                this.myPost()
-                this.getFollowerNum()
-                this.getFolloweeNum()
+            (newP, oldP) => {
+                console.log(oldP)
+                this.userId = newP.id
+                this.getUser()
             }
         )
     },
@@ -119,7 +114,11 @@ export default {
         getUser() {
             getUser({id: this.userId}).then((response) => {
                 this.userName = response.data.user_name
-                this.userName = response.data.nick
+                this.name = response.data.nick
+                // to get user's data
+                this.myPost()
+                this.getFollowerNum()
+                this.getFolloweeNum()
             }).catch(err => {
                 console.log(err)
             })
