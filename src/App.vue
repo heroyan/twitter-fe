@@ -57,7 +57,7 @@ export default {
       console.log(keyPath)
     },
     showLogin() {
-      return this.$store.state.user.name == ""
+      return this.$store.state.user.token == ""
     }
   }
 }

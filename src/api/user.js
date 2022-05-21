@@ -23,6 +23,14 @@ export function getUser(query) {
     })
 }
 
+export function updateInfo(data) {
+    return request({
+        url: '/api/user/updateInfo',
+        method: 'post',
+        data: data
+    })
+}
+
 export function myPost(query) {
     return request({
         url: '/api/user/myPost',

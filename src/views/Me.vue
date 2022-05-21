@@ -38,6 +38,9 @@
                     </div>
                 </template>
                  {{ name }}
+                 <el-icon class="iconStyle" @click="updateInfo">
+                    <Edit />
+                </el-icon>
             </el-descriptions-item>
             <el-descriptions-item>
                 <template #label>
@@ -87,10 +90,24 @@
             </el-tabs>
         </el-col>
     </el-row>
+    <el-dialog v-model="show" title="Edit your name">
+        <el-form :model="form" label-width="120px">
+            <el-form-item label="Name">
+                <el-input v-model="form.name" type="text" autocomplete="off" placeholder="Please input name" />
+            </el-form-item>
+        </el-form>
+        <template #footer>
+        <span class="dialog-footer">
+            <el-button @click="show = false">Cancel</el-button>
+            <el-button type="primary" @click="onSubmit">Confirm</el-button>
+        </span>
+        </template>
+    </el-dialog>
 </template>
 
 <script>
-import { myPost, myLike, myStar, followerNum, followeeNum, logout } from '@/api/user'
+import { myPost, myLike, myStar, followerNum, followeeNum, updateInfo, logout } from '@/api/user'
+import { ElMessage } from 'element-plus'
 import PostList from '@/components/PostList.vue'
 
 export default {
@@ -105,7 +122,11 @@ export default {
             myStarList: [],
             myLikeList: [],
             followerNum: 0,
-            followeeNum: 0
+            followeeNum: 0,
+            show: false,
+            form: {
+                name: ''
+            }
         }
     },
     created() {
@@ -180,6 +201,31 @@ export default {
                     this.$store.dispatch('user/resetToken')
                     this.$router.push({name: 'home'})
                 }
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+        updateInfo() {
+            this.show = true
+            this.form.name = this.name
+        },
+        onSubmit() {
+            if(this.form.name === '') {
+                ElMessage({
+                        message: 'name can not be empty',
+                        type: 'error',
+                        duration: 3000
+                })
+                return
+            }
+            // name no change, ignore
+            if(this.form.name == this.name) {
+                this.show = false
+                return
+            }
+            updateInfo({nick: this.form.name}).then(() => {
+                this.$store.dispatch('user/getInfo')
+                this.show = false
             }).catch(err => {
                 console.log(err)
             })
